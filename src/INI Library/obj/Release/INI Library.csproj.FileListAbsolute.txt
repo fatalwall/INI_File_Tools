@@ -1,0 +1,4 @@
+C:\Users\pvarney.VSHED\documents\visual studio 2012\Projects\INI File Tools\INI Library\bin\Release\INILib.dll
+C:\Users\pvarney.VSHED\documents\visual studio 2012\Projects\INI File Tools\INI Library\bin\Release\INILib.pdb
+C:\Users\pvarney.VSHED\documents\visual studio 2012\Projects\INI File Tools\INI Library\obj\Release\INILib.dll
+C:\Users\pvarney.VSHED\documents\visual studio 2012\Projects\INI File Tools\INI Library\obj\Release\INILib.pdb

@@ -1,0 +1,9 @@
+C:\Users\pvarney.VSHED\documents\visual studio 2012\Projects\INI File Tools\INI CLI\bin\Release\INI.exe.config
+C:\Users\pvarney.VSHED\documents\visual studio 2012\Projects\INI File Tools\INI CLI\bin\Release\Settings.ini
+C:\Users\pvarney.VSHED\documents\visual studio 2012\Projects\INI File Tools\INI CLI\bin\Release\INI.exe
+C:\Users\pvarney.VSHED\documents\visual studio 2012\Projects\INI File Tools\INI CLI\bin\Release\INI.pdb
+C:\Users\pvarney.VSHED\documents\visual studio 2012\Projects\INI File Tools\INI CLI\bin\Release\INILib.dll
+C:\Users\pvarney.VSHED\documents\visual studio 2012\Projects\INI File Tools\INI CLI\bin\Release\INILib.pdb
+C:\Users\pvarney.VSHED\documents\visual studio 2012\Projects\INI File Tools\INI CLI\obj\Release\INI CLI.csprojResolveAssemblyReference.cache
+C:\Users\pvarney.VSHED\documents\visual studio 2012\Projects\INI File Tools\INI CLI\obj\Release\INI.exe
+C:\Users\pvarney.VSHED\documents\visual studio 2012\Projects\INI File Tools\INI CLI\obj\Release\INI.pdb
