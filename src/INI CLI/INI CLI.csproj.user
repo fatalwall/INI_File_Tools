@@ -11,6 +11,6 @@
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartArguments>%3f</StartArguments>
+    <StartArguments>-S "Credentials" -K "User" -F Settings.ini</StartArguments>
   </PropertyGroup>
 </Project>

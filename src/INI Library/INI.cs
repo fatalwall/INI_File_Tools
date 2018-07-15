@@ -18,8 +18,41 @@ namespace INI_LIB
 {
     public class INI
     {
-        public INI() { }
-        public INI(string FilePath) { this.FilePath = FilePath; this.Read(); }
+        public INI(CommentCharacterTypes CommentCharacter = CommentCharacterTypes.Semicolon) { this.CommentCharacter = CommentCharacter; }
+        public INI(string FilePath, CommentCharacterTypes CommentCharacter = CommentCharacterTypes.Semicolon)
+        { this.FilePath = FilePath; this.CommentCharacter = CommentCharacter; this.Read(); }
+
+        public enum CommentCharacterTypes
+        {
+            Semicolon = 59,
+            NumberSign = 35
+        }
+        public CommentCharacterTypes CommentCharacter { get; private set; }
+
+        private enum LineTypes
+        {
+            Invalid = -1,
+            Comment = 0,
+            Section = 1,
+            KeyValue = 2,
+        }
+        private LineTypes GetLineType(string Content, out GroupCollection Groups)
+        {
+            Match match;
+            //Comment
+            match = Regex.Match(Content, string.Format(@"{0}(?'Comment'.*)", (char)(int)CommentCharacter));
+            if (match.Success) { Groups = match.Groups; return LineTypes.Comment; }
+            //Section
+            match = Regex.Match(Content, @"\[(?'Section'.*)\]");
+            //KeyValue
+            if (match.Success) { Groups = match.Groups; return LineTypes.Section; }
+            match = Regex.Match(Content, @"(?'Key'.*)=(?'Value'.*)");
+            if (match.Success) { Groups = match.Groups; return LineTypes.KeyValue; }
+            //Else
+            Groups = null;
+            return LineTypes.Invalid;
+        }
+
         public void Read(string FilePath) { this.FilePath = FilePath; this.Read(); }
         private void Read() 
         {
@@ -31,21 +64,24 @@ namespace INI_LIB
             using (System.IO.StreamReader streamReader = new System.IO.StreamReader(this.FilePath))
             {
                 string CurSection="";
+                List<string> Comments = new List<string>();
                 while ((readContents = streamReader.ReadLine()) != null)
                 {
-                    //Check if its a new section and create an object for it
-                    Match TestSection = Regex.Match(readContents, @"\[(?'Section'.*)\]");
-                    if (TestSection.Success)
+                    GroupCollection Groups;
+                    switch (GetLineType(readContents, out Groups))
                     {
-                        CurSection= TestSection.Groups["Section"].Value;
-                        this.Add(new INI_Section(CurSection));
-                    }else{
-                        //Check if its a Key Value Pair and add it to the last Section object
-                        Match TestKeyValue = Regex.Match(readContents, @"(?'Key'.*)=(?'Value'.*)");
-                        if (TestKeyValue.Success)
-                        {
-                            this[CurSection].Add(new INI_KeyValue(TestKeyValue.Groups["Key"].Value, TestKeyValue.Groups["Value"].Value));
-                        }
+                        case LineTypes.Comment:
+                            Comments.Add(Groups["Comment"].Value);
+                            break;
+                        case LineTypes.Section:
+                            this.Add(new INI_Section(Groups["Section"].Value, Comments, CommentCharacter)); Comments.Clear();
+                            CurSection = Groups["Section"].Value;
+                            break;
+                        case LineTypes.KeyValue:
+                            this[CurSection].Add(new INI_KeyValue(Groups["Key"].Value, Groups["Value"].Value, Comments, CommentCharacter)); Comments.Clear();
+                            break;
+                        default: //LineType.Invalid
+                            break;
                     }
                 }
                 streamReader.Close();
@@ -59,7 +95,7 @@ namespace INI_LIB
                 string combined = "";
                 foreach (INI_Section s in this.Sections)
                 {
-                    combined += s.ToString();
+                    combined += s;
                     combined += Environment.NewLine;
                     combined += Environment.NewLine;
                 }
@@ -79,7 +115,8 @@ namespace INI_LIB
                 {
                     if (e.Name == Name) { return e; }
                 }
-                return null;
+                this.Add(new INI_Section(Name, this.CommentCharacter));
+                return this[Name];
             }
         }
 
@@ -90,7 +127,7 @@ namespace INI_LIB
 
         public int IndexOf(string Name)
         {
-            return Sections.IndexOf(this[Name]);
+            return Sections.IndexOf(this[Name]); 
         }
         public int IndexOf(INI_Section Section)
         {

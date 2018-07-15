@@ -16,10 +16,23 @@ namespace INI_LIB
 {
     public class INI_KeyValue
     {
-        public INI_KeyValue(string Key, string Value) { this.Key = Key; this.Value = Value; }
+        public INI_KeyValue(string Key, string Value, INI.CommentCharacterTypes CommentCharacter = INI.CommentCharacterTypes.Semicolon) { this.Key = Key; this.Value = Value; Comments = new List<string>(); this.CommentCharacter = CommentCharacter; }
+        public INI_KeyValue(string Key, string Value, List<string> Comments, INI.CommentCharacterTypes CommentCharacter = INI.CommentCharacterTypes.Semicolon) { this.Key = Key; this.Value = Value; this.Comments = new List<string>(Comments); this.CommentCharacter = CommentCharacter; }
 
         public string Key { get; set; }
         public string Value { get; set; }
-        public override string ToString() { return string.Format("{0}={1}", this.Key, this.Value); }
+        public List<string> Comments { get; set; }
+        public INI.CommentCharacterTypes CommentCharacter { get; private set; }
+        public override string ToString() 
+        {
+            return string.Format("{0}={1}", this.Key, this.Value);
+        }
+        public static implicit operator string(INI_KeyValue KeyValue) 
+        {
+            StringBuilder output = new StringBuilder();
+            foreach (string c in KeyValue.Comments) { output.AppendLine(string.Format("{0}{1}", (char)(int)KeyValue.CommentCharacter, c)); }
+            output.AppendLine(string.Format("{0}={1}", KeyValue.Key, KeyValue.Value));
+            return output.ToString();
+        }
     }
 }

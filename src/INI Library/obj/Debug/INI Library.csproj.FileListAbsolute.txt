@@ -2,3 +2,7 @@ C:\Users\pvarney.VSHED\documents\visual studio 2012\Projects\INI File Tools\INI 
 C:\Users\pvarney.VSHED\documents\visual studio 2012\Projects\INI File Tools\INI Library\bin\Debug\INILib.pdb
 C:\Users\pvarney.VSHED\documents\visual studio 2012\Projects\INI File Tools\INI Library\obj\Debug\INILib.dll
 C:\Users\pvarney.VSHED\documents\visual studio 2012\Projects\INI File Tools\INI Library\obj\Debug\INILib.pdb
+C:\Users\pvarney.VSHED\Documents\GitHub\INI_File_Tools\src\INI Library\bin\Debug\INILib.dll
+C:\Users\pvarney.VSHED\Documents\GitHub\INI_File_Tools\src\INI Library\bin\Debug\INILib.pdb
+C:\Users\pvarney.VSHED\Documents\GitHub\INI_File_Tools\src\INI Library\obj\Debug\INILib.dll
+C:\Users\pvarney.VSHED\Documents\GitHub\INI_File_Tools\src\INI Library\obj\Debug\INILib.pdb

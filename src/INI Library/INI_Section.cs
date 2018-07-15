@@ -12,13 +12,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Xml;
+using System.Text;
 
 namespace INI_LIB
 {
     public class INI_Section
     {
-        public INI_Section(string Name) { this.Name = Name; }
+        public INI_Section(string Name, INI.CommentCharacterTypes CommentCharacter = INI.CommentCharacterTypes.Semicolon) { this.Name = Name; this.Comments = new List<string>(); this.CommentCharacter = CommentCharacter; }
+        public INI_Section(string Name, List<string> Comments, INI.CommentCharacterTypes CommentCharacter = INI.CommentCharacterTypes.Semicolon) { this.Name = Name; this.Comments = new List<string>(Comments); this.CommentCharacter = CommentCharacter; }
         public string Name { get; private set; }
+        public List<string> Comments { get; set; }
+        public INI.CommentCharacterTypes CommentCharacter { get; private set; }
         public List<INI_KeyValue> Elements = new List<INI_KeyValue>();
         public int Count { get { return Elements.Count; } }
 
@@ -58,15 +62,17 @@ namespace INI_LIB
 
         public void Clear() { Elements.Clear(); }
 
-        public override string ToString() 
+        public override string ToString()
         {
-            string output = string.Format("[{0}]", this.Name);
-            foreach (INI_KeyValue e in Elements)
-            {
-                output += Environment.NewLine;
-                output += e.ToString();
-            }
-            return output; 
+            return string.Format("[{0}]", this.Name);
+        }
+        public static implicit operator string(INI_Section Section) 
+        {
+            StringBuilder output = new StringBuilder();
+            foreach (string c in Section.Comments) { output.AppendLine(string.Format("{0}{1}", (char)(int)Section.CommentCharacter, c)); }
+            output.AppendLine(string.Format("[{0}]", Section.Name));
+            foreach (INI_KeyValue e in Section.Elements) { output.AppendLine(e.ToString()); }
+            return output.ToString();
         }
 
     }
