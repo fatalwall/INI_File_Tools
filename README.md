@@ -23,8 +23,11 @@ This is a .Net 4.0 DLL file which can read in an entire INI file and allow easy 
         <Example INI File>
 
         [Credentials]
+        ;System login used for accessing the host device
         User=DoeJ
         Password=SomePassword
+        
+        ;Host details for the end point device
         [Host]
         Name=LPTDOEJ
 
