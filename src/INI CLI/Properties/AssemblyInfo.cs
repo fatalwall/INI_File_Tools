@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("INI CLI")]
 [assembly: AssemblyDescription("Command Line application for reading and editing INI configuraiton files")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Peter Varney")]
 [assembly: AssemblyProduct("INI CLI")]
-[assembly: AssemblyCopyright("Copyright © 2018 Peter Varney")]
+[assembly: AssemblyCopyright("Copyright © Peter Varney 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.0.1.*")]
 [assembly: AssemblyFileVersion("1.0.0.0")]

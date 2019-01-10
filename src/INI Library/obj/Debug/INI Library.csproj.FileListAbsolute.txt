@@ -6,3 +6,5 @@ C:\Users\pvarney.VSHED\Documents\GitHub\INI_File_Tools\src\INI Library\bin\Debug
 C:\Users\pvarney.VSHED\Documents\GitHub\INI_File_Tools\src\INI Library\bin\Debug\INILib.pdb
 C:\Users\pvarney.VSHED\Documents\GitHub\INI_File_Tools\src\INI Library\obj\Debug\INILib.dll
 C:\Users\pvarney.VSHED\Documents\GitHub\INI_File_Tools\src\INI Library\obj\Debug\INILib.pdb
+C:\Users\pvarney.VSHED\Documents\GitHub\INI_File_Tools\src\INI Library\obj\Debug\INI Library.csprojAssemblyReference.cache
+C:\Users\pvarney.VSHED\Documents\GitHub\INI_File_Tools\src\INI Library\obj\Debug\INI Library.csproj.CoreCompileInputs.cache

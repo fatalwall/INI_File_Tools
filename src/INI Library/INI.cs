@@ -7,27 +7,19 @@
  * this file. If not, visit : https://github.com/fatalwall/INI_File_Tools
  */
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
 using System.Text.RegularExpressions;
 
-namespace INI_LIB
+namespace System.IO.INI
 {
-    public class INI
+    public class File
     {
-        public INI(CommentCharacterTypes CommentCharacter = CommentCharacterTypes.Semicolon) { this.CommentCharacter = CommentCharacter; }
-        public INI(string FilePath, CommentCharacterTypes CommentCharacter = CommentCharacterTypes.Semicolon)
+        public File(CommentCharacterTypes CommentCharacter = CommentCharacterTypes.Semicolon) { this.CommentCharacter = CommentCharacter; }
+        public File(string FilePath,bool IgnoreFileNotFound = false, CommentCharacterTypes CommentCharacter = CommentCharacterTypes.Semicolon)
         { this.FilePath = FilePath; this.CommentCharacter = CommentCharacter; this.Read(); }
 
-        public enum CommentCharacterTypes
-        {
-            Semicolon = 59,
-            NumberSign = 35
-        }
         public CommentCharacterTypes CommentCharacter { get; private set; }
+        public bool IgnoreFileNotFound { get; private set; }
 
         private enum LineTypes
         {
@@ -56,11 +48,11 @@ namespace INI_LIB
         public void Read(string FilePath) { this.FilePath = FilePath; this.Read(); }
         private void Read() 
         {
-            if (Sections == null) { Sections = new List<INI_Section>(); }
+            if (Sections == null) { Sections = new List<Section>(); }
             else { Sections.Clear(); }
 
             string readContents;
-            if (!File.Exists(this.FilePath)) { throw new FileNotFoundException("The INI configuraiton file you are trying to load could not be found.", this.FilePath); }
+            if (!IO.File.Exists(this.FilePath)) { if (IgnoreFileNotFound) { return; } else throw new FileNotFoundException("The INI configuraiton file you are trying to load could not be found.", this.FilePath); }
             using (System.IO.StreamReader streamReader = new System.IO.StreamReader(this.FilePath))
             {
                 string CurSection="";
@@ -74,11 +66,11 @@ namespace INI_LIB
                             Comments.Add(Groups["Comment"].Value);
                             break;
                         case LineTypes.Section:
-                            this.Add(new INI_Section(Groups["Section"].Value, Comments, CommentCharacter)); Comments.Clear();
+                            this.Add(new Section(Groups["Section"].Value, Comments, CommentCharacter)); Comments.Clear();
                             CurSection = Groups["Section"].Value;
                             break;
                         case LineTypes.KeyValue:
-                            this[CurSection].Add(new INI_KeyValue(Groups["Key"].Value, Groups["Value"].Value, Comments, CommentCharacter)); Comments.Clear();
+                            this[CurSection].Add(new KeyValuePair(Groups["Key"].Value, Groups["Value"].Value, Comments, CommentCharacter)); Comments.Clear();
                             break;
                         default: //LineType.Invalid
                             break;
@@ -93,7 +85,7 @@ namespace INI_LIB
             using (System.IO.StreamWriter writer = new System.IO.StreamWriter(this.FilePath))
             {
                 string combined = "";
-                foreach (INI_Section s in this.Sections)
+                foreach (Section s in this.Sections)
                 {
                     combined += s;
                     combined += Environment.NewLine;
@@ -105,22 +97,22 @@ namespace INI_LIB
         }
 
         public string FilePath { get; private set; }
-        public List<INI_Section> Sections { get; set; }
+        public List<Section> Sections { get; set; }
 
-        public INI_Section this[string Name]
+        public Section this[string Name]
         {
             get
             {
-                foreach (INI_Section e in Sections)
+                foreach (Section e in Sections)
                 {
                     if (e.Name == Name) { return e; }
                 }
-                this.Add(new INI_Section(Name, this.CommentCharacter));
+                this.Add(new Section(Name, this.CommentCharacter));
                 return this[Name];
             }
         }
 
-        public INI_Section this[int index]
+        public Section this[int index]
         {
             get { return Sections[index]; }
         }
@@ -129,14 +121,14 @@ namespace INI_LIB
         {
             return Sections.IndexOf(this[Name]); 
         }
-        public int IndexOf(INI_Section Section)
+        public int IndexOf(Section Section)
         {
             return Sections.IndexOf(Section);
         }
 
-        public void Add(INI_Section d) { Sections.Add(d); }
+        public void Add(Section d) { Sections.Add(d); }
 
-        public void Remove(INI_Section d) { if (this.IndexOf(d) >= 0) Sections.Remove(d); }
+        public void Remove(Section d) { if (this.IndexOf(d) >= 0) Sections.Remove(d); }
 
         public void RemoveAt(int index) { Sections.RemoveAt(index); }
 
@@ -147,7 +139,7 @@ namespace INI_LIB
         public override string ToString()
         {
             string output = "";
-            foreach (INI_Section s in Sections)
+            foreach (Section s in Sections)
             {
                 output += s.ToString();
                 output += Environment.NewLine;

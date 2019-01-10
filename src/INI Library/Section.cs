@@ -14,23 +14,23 @@ using System.Diagnostics;
 using System.Xml;
 using System.Text;
 
-namespace INI_LIB
+namespace System.IO.INI
 {
-    public class INI_Section
+    public class Section
     {
-        public INI_Section(string Name, INI.CommentCharacterTypes CommentCharacter = INI.CommentCharacterTypes.Semicolon) { this.Name = Name; this.Comments = new List<string>(); this.CommentCharacter = CommentCharacter; }
-        public INI_Section(string Name, List<string> Comments, INI.CommentCharacterTypes CommentCharacter = INI.CommentCharacterTypes.Semicolon) { this.Name = Name; this.Comments = new List<string>(Comments); this.CommentCharacter = CommentCharacter; }
+        public Section(string Name, CommentCharacterTypes CommentCharacter = CommentCharacterTypes.Semicolon) { this.Name = Name; this.Comments = new List<string>(); this.CommentCharacter = CommentCharacter; }
+        public Section(string Name, List<string> Comments, CommentCharacterTypes CommentCharacter = CommentCharacterTypes.Semicolon) { this.Name = Name; this.Comments = new List<string>(Comments); this.CommentCharacter = CommentCharacter; }
         public string Name { get; private set; }
         public List<string> Comments { get; set; }
         public INI.CommentCharacterTypes CommentCharacter { get; private set; }
-        public List<INI_KeyValue> Elements = new List<INI_KeyValue>();
+        public List<KeyValuePair> Elements = new List<KeyValuePair>();
         public int Count { get { return Elements.Count; } }
 
-        public INI_KeyValue this[string Key]
+        public KeyValuePair this[string Key]
         {
             get
             {
-                foreach (INI_KeyValue e in Elements)
+                foreach (KeyValuePair e in Elements)
                 {
                     if (e.Key == Key) { return e; }
                 }
@@ -38,7 +38,7 @@ namespace INI_LIB
             }
         }
 
-        public INI_KeyValue this[int index]
+        public KeyValuePair this[int index]
         {
             get { return Elements[index]; }
         }
@@ -47,14 +47,14 @@ namespace INI_LIB
         {
             return Elements.IndexOf(this[Key]);
         }
-        public int IndexOf(INI_KeyValue KeyValue)
+        public int IndexOf(KeyValuePair KeyValue)
         {
             return Elements.IndexOf(KeyValue);
         }
 
-        public void Add(INI_KeyValue d) { Elements.Add(d); }
+        public void Add(KeyValuePair d) { Elements.Add(d); }
 
-        public void Remove(INI_KeyValue d) { if (this.IndexOf(d) >= 0) Elements.Remove(d); }
+        public void Remove(KeyValuePair d) { if (this.IndexOf(d) >= 0) Elements.Remove(d); }
 
         public void RemoveAt(int index) { Elements.RemoveAt(index); }
 
@@ -66,12 +66,12 @@ namespace INI_LIB
         {
             return string.Format("[{0}]", this.Name);
         }
-        public static implicit operator string(INI_Section Section) 
+        public static implicit operator string(Section Section) 
         {
             StringBuilder output = new StringBuilder();
             foreach (string c in Section.Comments) { output.AppendLine(string.Format("{0}{1}", (char)(int)Section.CommentCharacter, c)); }
             output.AppendLine(string.Format("[{0}]", Section.Name));
-            foreach (INI_KeyValue e in Section.Elements) { output.AppendLine(e.ToString()); }
+            foreach (KeyValuePair e in Section.Elements) { output.AppendLine(e.ToString()); }
             return output.ToString();
         }
 

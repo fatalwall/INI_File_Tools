@@ -8,10 +8,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace INI_CLI
 {
@@ -21,8 +17,6 @@ namespace INI_CLI
         static string Section = null;
         static string Key = null;
         static string Value = null;
-        static string OutputRegex = ".*";
-        static string OutputDisplay = "{R:0}";
 
         static void Main(string[] args)
         {
@@ -48,16 +42,6 @@ namespace INI_CLI
                         Key = args[i + 1];
                         i++;
                         break;
-                    //case "-OUTPUTREGEX":
-                    //case "-R":
-                    //    OutputRegex = args[i + 1];
-                    //    i++;
-                    //    break;
-                    //case "-OUTPUTDISPLAY":
-                    //case "-D":
-                    //    OutputDisplay = args[i + 1];
-                    //    i++;
-                    //    break;
                     case "-Value":
                     case "-V":
                         Value = args[i + 1];
@@ -85,8 +69,8 @@ namespace INI_CLI
                 Console.Write(CommandHelp());
                 Environment.Exit(-1);
             }
-    
-            INI_LIB.INI config = new INI_LIB.INI(FilePath);
+
+            System.IO.INI.File config = new System.IO.INI.File(FilePath,true);
             if (Value == null)
             {
                 //Read
@@ -101,9 +85,9 @@ namespace INI_CLI
                 }
             }else {
                 //Write     
-                if (config.IndexOf(Section) < 0) { config.Add(new INI_LIB.INI_Section(Section)); }
+                if (config.IndexOf(Section) < 0) { config.Add(new System.IO.INI.Section(Section)); }
                 if (config[Section].IndexOf(Key) < 0)
-                { config[Section].Add(new INI_LIB.INI_KeyValue(Key, Value)); }
+                { config[Section].Add(new System.IO.INI.KeyValuePair(Key, Value)); }
                 else { config[Section][Key].Value = Value; config.Write(); }
             }
             

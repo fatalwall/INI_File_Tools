@@ -7,7 +7,7 @@
     <ProjectGuid>{568C4447-7544-4D94-A8A0-5F51F7832EAC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>INI_Library</RootNamespace>
+    <RootNamespace>System.IO.INI</RootNamespace>
     <AssemblyName>INILib</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -39,9 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommentCharacterTypes.cs" />
     <Compile Include="INI.cs" />
-    <Compile Include="INI_KeyValue.cs" />
-    <Compile Include="INI_Section.cs" />
+    <Compile Include="KeyValuePair.cs" />
+    <Compile Include="Section.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
