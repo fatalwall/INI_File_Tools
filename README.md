@@ -4,6 +4,8 @@ Regularly working with legacy applications and routinely need to perform some fo
 ## INI Library
 This is a .Net 4.0 DLL file which can read in an entire INI file and allow easy access to the Section/Key/Value combinations. Values can also be updated and saved back to the source file or another file path.
 
+[![NuGet](https://img.shields.io/nuget/v/vshed.IO.INI.svg)](https://www.nuget.org/packages/vshed.IO.INI)
+
 ### Example Usage
         using vshed.IO.INI;
    
