@@ -53,6 +53,9 @@ namespace vshed.IO.INI
 
         public void Read(Stream stream, int streamPosition = 0)
         {
+            if (Sections == null) { Sections = new List<Section>(); }
+            else { Sections.Clear(); }
+
             string readContents;
             stream.Position = streamPosition;
             using (System.IO.StreamReader streamReader = new System.IO.StreamReader(stream))
@@ -85,9 +88,6 @@ namespace vshed.IO.INI
         {
             this.FilePath = FilePath;
 
-            if (Sections == null) { Sections = new List<Section>(); }
-            else { Sections.Clear(); }
-
             if (!System.IO.File.Exists(this.FilePath)) { if (IgnoreFileNotFound) { return; } else throw new FileNotFoundException("The INI configuraiton file you are trying to load could not be found.", this.FilePath); }
             Read((new StreamReader(this.FilePath)).BaseStream);
         }
@@ -98,35 +98,11 @@ namespace vshed.IO.INI
             this.FilePath = FilePath;
             using (System.IO.StreamWriter writer = new System.IO.StreamWriter(this.FilePath))
             {
-                //string combined = "";
-                //foreach (Section s in this.Sections)
-                //{
-                //    combined += s;
-                //    combined += Environment.NewLine;
-                //    combined += Environment.NewLine;
-                //}
-                //writer.Write(combined.TrimEnd());
                 writer.Write(this.Content);
                 writer.Close();
             }
         }
-        public Stream Write()
-        {
-
-            //string combined = "";
-            //foreach (Section s in this.Sections)
-            //{
-            //    combined += s;
-            //    combined += Environment.NewLine;
-            //    combined += Environment.NewLine;
-            //}
-            return (Stream)(new MemoryStream(Encoding.ASCII.GetBytes(this.Content)));
-            //using (System.IO.StreamWriter writer = new System.IO.StreamWriter(this.FilePath))
-            //{
-            //    writer.Write(this.ToString());
-            //    writer.Close();
-            //}
-        }
+        public Stream Write() { return (Stream)(new MemoryStream(Encoding.ASCII.GetBytes(this.Content))); }
 
         public string FilePath { get; private set; }
         public List<Section> Sections { get; set; }

@@ -71,7 +71,6 @@ namespace INI_CLI
             }
 
             vshed.IO.INI.IniFile config = new vshed.IO.INI.IniFile(FilePath,true);
-            config.ToString();
             if (Value == null)
             {
                 //Read
