@@ -4,6 +4,33 @@ Regularly working with leggacy applications and routinely need to perform some f
 ## INI Library
 This is a .Net 4.0 DLL file which can read in an entire INI file and allow easy access to the Section/Key/Value combinations. Values can also be updated and saved back to the source file or another file path.
 
+### Example Usage
+        using vshed.IO.INI;
+   
+        //Read in file via constructor and loop though Sections and KeyValuePairs
+        INIFile file = new INIFile("C:\someFile.ini");
+        foreach(Section s in file.Sections)
+        { 
+                console.WriteLine(s.Name);
+                foreach(KeyValuePair e in s.Elements)
+                {
+                        console.WriteLine(s.Key + " = " + s.Value);
+                }
+        }
+
+        //Read in file and loop though all Sections, KeyValuePairs, and comments
+        file.Read("C:\someOtherFile.ini");        
+        foreach(Section s in file.Sections)
+        { 
+                foreach(string c in file.Sections.Comments) {console.WriteLine(c);}
+                console.WriteLine(s.Name);
+                foreach(KeyValuePair e in s.Elements)
+                {
+                        foreach(string c in e.Comments) {console.WriteLine(c);}
+                        console.WriteLine(s.Key + " = " + s.Value);
+                }
+        }
+
 ## INI CLI
         INI Command Line Interface
         Designed to read and update INI formatted files
