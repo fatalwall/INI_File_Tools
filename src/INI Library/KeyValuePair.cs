@@ -1,5 +1,5 @@
 ﻿/* 
- *Copyright (C) 2018 Peter Varney - All Rights Reserved
+ *Copyright (C) 2018-2019 Peter Varney - All Rights Reserved
  * You may use, distribute and modify this code under the
  * terms of the MIT license, 
  *
@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace System.IO.INI
+namespace vshed.IO.INI
 {
     public class KeyValuePair
     {

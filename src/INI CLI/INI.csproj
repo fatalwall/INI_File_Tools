@@ -85,9 +85,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\INI Library\INI Library.csproj">
+    <ProjectReference Include="..\INI Library\vshed.IO.INI.csproj">
       <Project>{568c4447-7544-4d94-a8a0-5f51f7832eac}</Project>
-      <Name>INI Library</Name>
+      <Name>vshed.IO.INI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

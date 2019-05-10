@@ -1,5 +1,5 @@
 ﻿/* 
- *Copyright (C) 2018 Peter Varney - All Rights Reserved
+ *Copyright (C) 2018-2019 Peter Varney - All Rights Reserved
  * You may use, distribute and modify this code under the
  * terms of the MIT license, 
  *
@@ -7,27 +7,33 @@
  * this file. If not, visit : https://github.com/fatalwall/INI_File_Tools
  */
 
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text.RegularExpressions;
+using System.Text;
 
-namespace System.IO.INI
+namespace vshed.IO.INI
 {
-    public class File
+    public class IniFile
     {
-        public File(CommentCharacterTypes CommentCharacter = CommentCharacterTypes.Semicolon) { this.CommentCharacter = CommentCharacter; }
-        public File(string FilePath,bool IgnoreFileNotFound = false, CommentCharacterTypes CommentCharacter = CommentCharacterTypes.Semicolon)
-        { this.FilePath = FilePath; this.CommentCharacter = CommentCharacter; this.Read(); }
+        public IniFile(CommentCharacterTypes CommentCharacter = CommentCharacterTypes.Semicolon) { this.CommentCharacter = CommentCharacter; }
+        public IniFile(string FilePath, bool IgnoreFileNotFound = false, CommentCharacterTypes CommentCharacter = CommentCharacterTypes.Semicolon)
+        { this.CommentCharacter = CommentCharacter; this.Read(FilePath); }
+        public IniFile(Stream stream, CommentCharacterTypes CommentCharacter = CommentCharacterTypes.Semicolon)
+        { this.CommentCharacter = CommentCharacter; this.Read(stream); }
 
         public CommentCharacterTypes CommentCharacter { get; private set; }
         public bool IgnoreFileNotFound { get; private set; }
 
-        private enum LineTypes
+        public enum LineTypes
         {
             Invalid = -1,
             Comment = 0,
             Section = 1,
             KeyValue = 2,
         }
+
         private LineTypes GetLineType(string Content, out GroupCollection Groups)
         {
             Match match;
@@ -45,17 +51,13 @@ namespace System.IO.INI
             return LineTypes.Invalid;
         }
 
-        public void Read(string FilePath) { this.FilePath = FilePath; this.Read(); }
-        private void Read() 
+        public void Read(Stream stream, int streamPosition = 0)
         {
-            if (Sections == null) { Sections = new List<Section>(); }
-            else { Sections.Clear(); }
-
             string readContents;
-            if (!IO.File.Exists(this.FilePath)) { if (IgnoreFileNotFound) { return; } else throw new FileNotFoundException("The INI configuraiton file you are trying to load could not be found.", this.FilePath); }
-            using (System.IO.StreamReader streamReader = new System.IO.StreamReader(this.FilePath))
+            stream.Position = streamPosition;
+            using (System.IO.StreamReader streamReader = new System.IO.StreamReader(stream))
             {
-                string CurSection="";
+                string CurSection = "";
                 List<string> Comments = new List<string>();
                 while ((readContents = streamReader.ReadLine()) != null)
                 {
@@ -79,21 +81,51 @@ namespace System.IO.INI
                 streamReader.Close();
             }
         }
-        public void Write(string FilePath) { this.FilePath = FilePath; this.Write(); }
-        public void Write()
+        public void Read(string FilePath)
         {
+            this.FilePath = FilePath;
+
+            if (Sections == null) { Sections = new List<Section>(); }
+            else { Sections.Clear(); }
+
+            if (!System.IO.File.Exists(this.FilePath)) { if (IgnoreFileNotFound) { return; } else throw new FileNotFoundException("The INI configuraiton file you are trying to load could not be found.", this.FilePath); }
+            Read((new StreamReader(this.FilePath)).BaseStream);
+        }
+
+
+        public void Write(string FilePath)
+        {
+            this.FilePath = FilePath;
             using (System.IO.StreamWriter writer = new System.IO.StreamWriter(this.FilePath))
             {
-                string combined = "";
-                foreach (Section s in this.Sections)
-                {
-                    combined += s;
-                    combined += Environment.NewLine;
-                    combined += Environment.NewLine;
-                }
-                writer.Write(combined.TrimEnd());
+                //string combined = "";
+                //foreach (Section s in this.Sections)
+                //{
+                //    combined += s;
+                //    combined += Environment.NewLine;
+                //    combined += Environment.NewLine;
+                //}
+                //writer.Write(combined.TrimEnd());
+                writer.Write(this.Content);
                 writer.Close();
             }
+        }
+        public Stream Write()
+        {
+
+            //string combined = "";
+            //foreach (Section s in this.Sections)
+            //{
+            //    combined += s;
+            //    combined += Environment.NewLine;
+            //    combined += Environment.NewLine;
+            //}
+            return (Stream)(new MemoryStream(Encoding.ASCII.GetBytes(this.Content)));
+            //using (System.IO.StreamWriter writer = new System.IO.StreamWriter(this.FilePath))
+            //{
+            //    writer.Write(this.ToString());
+            //    writer.Close();
+            //}
         }
 
         public string FilePath { get; private set; }
@@ -119,7 +151,7 @@ namespace System.IO.INI
 
         public int IndexOf(string Name)
         {
-            return Sections.IndexOf(this[Name]); 
+            return Sections.IndexOf(this[Name]);
         }
         public int IndexOf(Section Section)
         {
@@ -136,17 +168,19 @@ namespace System.IO.INI
 
         public void Clear() { Sections.Clear(); }
 
-        public override string ToString()
+        public override string ToString() { return string.Format("[{0} Sections] {1}", this.Sections.Count, this.FilePath ?? ""); }
+
+        public string Content => (string)this;
+        public static implicit operator string(IniFile iniFile)
         {
             string output = "";
-            foreach (Section s in Sections)
+            foreach (Section s in iniFile.Sections)
             {
-                output += s.ToString();
+                output += (String)s;
                 output += Environment.NewLine;
 
             }
-            return output.TrimEnd(); 
+            return output.TrimEnd();
         }
-
     }
 }

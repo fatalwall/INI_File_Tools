@@ -70,7 +70,8 @@ namespace INI_CLI
                 Environment.Exit(-1);
             }
 
-            System.IO.INI.File config = new System.IO.INI.File(FilePath,true);
+            vshed.IO.INI.IniFile config = new vshed.IO.INI.IniFile(FilePath,true);
+            config.ToString();
             if (Value == null)
             {
                 //Read
@@ -85,15 +86,12 @@ namespace INI_CLI
                 }
             }else {
                 //Write     
-                if (config.IndexOf(Section) < 0) { config.Add(new System.IO.INI.Section(Section)); }
+                if (config.IndexOf(Section) < 0) { config.Add(new vshed.IO.INI.Section(Section)); }
                 if (config[Section].IndexOf(Key) < 0)
-                { config[Section].Add(new System.IO.INI.KeyValuePair(Key, Value)); }
+                { config[Section].Add(new vshed.IO.INI.KeyValuePair(Key, Value)); }
                 else { config[Section][Key].Value = Value; config.Write(); }
             }
-            
-            //FixME
-            //Add functionality to allow a Filter on the Value
-            
+                       
             //Output results
             Console.Write(Value);
             Environment.Exit(0);

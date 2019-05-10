@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "INI CLI", "INI CLI\INI CLI.csproj", "{60641ED0-922A-4CFD-A836-7F990DE47A5E}"
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.168
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "INI", "INI CLI\INI.csproj", "{60641ED0-922A-4CFD-A836-7F990DE47A5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "INI Library", "INI Library\INI Library.csproj", "{568C4447-7544-4D94-A8A0-5F51F7832EAC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vshed.IO.INI", "INI Library\vshed.IO.INI.csproj", "{568C4447-7544-4D94-A8A0-5F51F7832EAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,5 +24,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {14519930-6E80-4F4D-A58D-3B965BF779E5}
 	EndGlobalSection
 EndGlobal

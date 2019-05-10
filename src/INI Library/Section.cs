@@ -1,5 +1,5 @@
 ﻿/* 
- *Copyright (C) 2018 Peter Varney - All Rights Reserved
+ *Copyright (C) 2018-2019 Peter Varney - All Rights Reserved
  * You may use, distribute and modify this code under the
  * terms of the MIT license, 
  *
@@ -14,7 +14,7 @@ using System.Diagnostics;
 using System.Xml;
 using System.Text;
 
-namespace System.IO.INI
+namespace vshed.IO.INI
 {
     public class Section
     {
@@ -71,7 +71,8 @@ namespace System.IO.INI
             StringBuilder output = new StringBuilder();
             foreach (string c in Section.Comments) { output.AppendLine(string.Format("{0}{1}", (char)(int)Section.CommentCharacter, c)); }
             output.AppendLine(string.Format("[{0}]", Section.Name));
-            foreach (KeyValuePair e in Section.Elements) { output.AppendLine(e.ToString()); }
+            foreach (KeyValuePair e in Section.Elements)
+            { output.Append((string)e); }
             return output.ToString();
         }
 
