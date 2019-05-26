@@ -81,7 +81,6 @@ namespace vshed.IO.INI
                             break;
                     }
                 }
-                streamReader.Close();
             }
         }
         public void Read(string FilePath)
@@ -154,7 +153,7 @@ namespace vshed.IO.INI
             {
                 output += (String)s;
                 output += Environment.NewLine;
-
+                if (iniFile.Sections.Count == 1 && string.IsNullOrEmpty(s.Name)) output=output.Replace("[]\r\n","");
             }
             return output.TrimEnd();
         }
