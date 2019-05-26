@@ -1,8 +1,10 @@
 # INI File Tools
-Regularly working with leggacy applications and routinely need to perform some form of autimation around reading or updating configurations of these applicaitons. Many use the legacy INI format. Solutions around this are often unable to handle simple issues such as a space in a section name, key, or value. This provides a simple tool that should work in all cases reliably.
+Regularly working with legacy applications and routinely need to perform some form of automation around reading or updating configurations of these applications. Many use the legacy INI format. Solutions around this are often unable to handle simple issues such as a space in a section name, key, or value. This provides a simple tool that should work in all cases reliably.
 
 ## INI Library
 This is a .Net 4.0 DLL file which can read in an entire INI file and allow easy access to the Section/Key/Value combinations. Values can also be updated and saved back to the source file or another file path.
+
+[![NuGet](https://img.shields.io/nuget/v/vshed.IO.INI.svg)](https://www.nuget.org/packages/vshed.IO.INI)
 
 ### Example Usage
         using vshed.IO.INI;
