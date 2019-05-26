@@ -71,11 +71,11 @@ namespace vshed.IO.INI
                             Comments.Add(Groups["Comment"].Value);
                             break;
                         case LineTypes.Section:
-                            this.Add(new Section(Groups["Section"].Value, Comments, CommentCharacter)); Comments.Clear();
+                            this.Add(new Section(Groups["Section"].Value.Trim(), Comments, CommentCharacter)); Comments.Clear();
                             CurSection = Groups["Section"].Value;
                             break;
                         case LineTypes.KeyValue:
-                            this[CurSection].Add(new KeyValuePair(Groups["Key"].Value, Groups["Value"].Value, Comments, CommentCharacter)); Comments.Clear();
+                            this[CurSection].Add(new KeyValuePair(Groups["Key"].Value.Trim(), Groups["Value"].Value, Comments, CommentCharacter)); Comments.Clear();
                             break;
                         default: //LineType.Invalid
                             break;
